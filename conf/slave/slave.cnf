@@ -1,0 +1,17 @@
+[mysqld]
+server_id = 666
+gtid_mode = on
+enforce_gtid_consistency = on
+log-bin = mysql-bin
+log-slave-updates = 1
+binlog_format = ROW
+skip-slave-start = 1
+binlog-ignore-db = mysql
+binlog_ignore_db = information_schema
+binlog_ignore_db = performation_schema
+binlog_ignore_db = sys
+
+character-set-server = utf8mb4
+collation-server = utf8mb4_unicode_ci
+master_info_repository  = table
+relay_log_info_repository = table

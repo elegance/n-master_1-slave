@@ -1,0 +1,41 @@
+version: '3.5'
+services:
+  master-1:
+    image: mysql:5.7
+    container_name: mysql-master-1
+    environment:
+      - "MYSQL_ROOT_PASSWORD=root"
+    volumes:
+      - master-1-data:/var/lib/mysql
+      - ./conf/master-1:/etc/mysql/conf.d/
+  master-2:
+    image: mysql:5.7
+    container_name: mysql-master-2
+    environment:
+      - "MYSQL_ROOT_PASSWORD=root"
+    volumes:
+      - master-2-data:/var/lib/mysql
+      - ./conf/master-2:/etc/mysql/conf.d/
+  slave:
+    image: mysql:5.7
+    container_name: mysql-slave
+    environment:
+      - "MYSQL_ROOT_PASSWORD=root"
+    volumes:
+      - slave-data:/var/lib/mysql
+      - ./conf/slave:/etc/mysql/conf.d/
+  mysqlconfiguration:
+    image: mysql:5.7
+    environment:
+      - "MYSQL_SLAVE_PASSWORD=root"
+      - "MYSQL_MASTER_PASSWORD=root"
+      - "MYSQL_ROOT_PASSWORD=root"
+      - "MYSQL_REPLICATION_USER=repl"
+      - "MYSQL_REPLICATION_PASSWORD=repl"    
+    volumes:
+      - ./mysql_connector.sh:/tmp/mysql_connector.sh
+    command: /bin/bash -x /tmp/mysql_connector.sh    
+volumes:
+  master-1-data:
+  master-2-data:
+  slave-data:
