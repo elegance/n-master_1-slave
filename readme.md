@@ -154,7 +154,7 @@ for channel 'master-2';
 # 启动所有 slave (也可单独对channel 启用：start slave for channel 'master-1')
 mysql> start slave;
 
-# 查看slave状态，关注下：Slave_IO_Running, Slave_SQL_Running, Last_Error
+# 查看slave状态，关注下：Slave_IO_Running, Slave_SQL_Running, Last_Error,  Seconds_Behind_Master : 主从延时
 mysql> show slave status \G;
 
 ```
@@ -198,6 +198,7 @@ docker volume prune
 > show global variables like '%gtid%';
 > show slave hosts;
 > show processlist;
+> show full processlist \G;
 > show slave status \G;
 > show slave status for channel 'master-1' \G;
 > start slave;
