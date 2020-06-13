@@ -165,13 +165,13 @@ mysql> show slave status \G;
 # master-1
 > create database test1;
 > use test1;
-> create talbe a(id int);
+> create table a(id int);
 > insert a(id) values(1);
 
 # master-2
 > create database test2;
 > use test2;
-> create talbe b(id int);
+> create table b(id int);
 > insert b(id) values(1);
 
 # slave 查看
