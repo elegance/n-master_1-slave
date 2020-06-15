@@ -589,6 +589,46 @@ docker-compose down
 docker volume prune
 ```
 
+### 附录
+
+#### 复制过滤
+* [基于配置文件的过滤规则](https://dev.mysql.com/doc/refman/5.7/en/replication-options-slave.html#option_mysqld_replicate-ignore-db)
+	* replicate-ignore-db=db_name  (由于数据库名称可以包含逗号，因此，如果提供逗号分隔的列表，则该列表将被视为单个数据库的名称。[官方文档](https://dev.mysql.com/doc/refman/5.7/en/replication-options-slave.html#option_mysqld_replicate-ignore-db))
+	* replicate-ignore-table=db_name.tbl_name
+	* replicate-wild-ignore-table=db_name.tbl_name
+	* replicate-do-db=db_name
+	* replicate-do-table=db_name.tbl_name
+	* replicate-wild-do-table=db_name.%
+	* replicate-rewrite-db=from_name->to_name
+* 更改复制过滤器规则 - 在线动态 [change-replication-filter](https://dev.mysql.com/doc/refman/5.7/en/change-replication-filter.html)
+	```mysql
+	CHANGE REPLICATION FILTER filter[, filter][, ...]
+		filter: {
+			REPLICATE_DO_DB = (db_list)
+			REPLICATE_IGNORE_DB = (db_list)
+		  | REPLICATE_DO_TABLE = (tbl_list)
+		  | REPLICATE_IGNORE_TABLE = (tbl_list)
+		  | REPLICATE_WILD_DO_TABLE = (wild_tbl_list)
+		  | REPLICATE_WILD_IGNORE_TABLE = (wild_tbl_list)
+		  | REPLICATE_REWRITE_DB = (db_pair_list)
+		}
+
+		db_list:
+			db_name[, db_name][, ...]
+
+		tbl_list:
+			db_name.table_name[, db_table_name][, ...]
+		wild_tbl_list:
+			'db_pattern.table_pattern'[, 'db_pattern.table_pattern'][, ...]
+
+		db_pair_list:
+			(db_pair)[, (db_pair)][, ...]
+
+		db_pair:
+			from_db, to_db
+	```
+* 基于复制通道的筛选器 ([MySQL 8.0](https://dev.mysql.com/doc/refman/8.0/en/replication-rules-channel-based-filters.html))
+
 #### 命令集：
 
 ```mysql
@@ -629,4 +669,7 @@ MASTER_AUTO_POSITION=1,
 MASTER_CONNECT_RETRY=10 
 for channel 'master-1';
 > CHANGE MASTER TO MASTER_LOG_FILE='mysql-bin.000010', MASTER_LOG_POS=194, MASTER_AUTO_POSITION=0 for channel 'master-1';
+
+# 在线修改过滤规则
+> CHANGE REPLICATION FILTER REPLICATE_IGNORE_DB= (mysql,information_schema,performation_schema,sys);
 ```
