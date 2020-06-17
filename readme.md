@@ -673,3 +673,7 @@ for channel 'master-1';
 # 在线修改过滤规则
 > CHANGE REPLICATION FILTER REPLICATE_IGNORE_DB= (mysql,information_schema,performation_schema,sys);
 ```
+
+#### show slave status \G; 参数解释：
+
+![show_slave_status](attachements/show_slave_status.png)
