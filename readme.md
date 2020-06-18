@@ -656,6 +656,8 @@ docker volume prune
 > delete from a;
 > set sql_log_bin=1;
 
+> reset slave for channel 'master-2'; #使从服务器忘记其在主服务器二进制日志中的复制位置。该语句旨在用于全新启动：清除主信息和中继日志信息存储库，删除所有中继日志文件，并启动新的中继日志文件。
+
 > purge binary logs to 'mysql-bin.000009';
 > show binary logs;
 > show variables like '%gtid_purge%';
@@ -668,7 +670,9 @@ MASTER_PORT=3306,
 MASTER_AUTO_POSITION=1, 
 MASTER_CONNECT_RETRY=10 
 for channel 'master-1';
+
 > CHANGE MASTER TO MASTER_LOG_FILE='mysql-bin.000010', MASTER_LOG_POS=194, MASTER_AUTO_POSITION=0 for channel 'master-1';
+
 
 # 在线修改过滤规则
 > CHANGE REPLICATION FILTER REPLICATE_IGNORE_DB= (mysql,information_schema,performation_schema,sys);
