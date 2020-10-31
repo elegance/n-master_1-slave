@@ -634,6 +634,7 @@ docker volume prune
 ```mysql
 > show global variables like '%gtid%';
 > show binary logs;
+> show binlog events in 'mysql-bin.000001';  # 查看该binlog event position
 > show slave hosts;
 > show processlist;
 > show full processlist \G;
